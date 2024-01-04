@@ -11,12 +11,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        // Cria uma instância de IntroductionViewController
+        let introductionViewController = IntroductionViewController()
+        let nav = UINavigationController(rootViewController: introductionViewController)
+        
+        // Configura a janela com o IntroductionViewController
         let window = UIWindow(windowScene: windowScene)
-        let viewController = LoginViewController()
-        let nav = UINavigationController(rootViewController: viewController)
         window.rootViewController = nav
         window.makeKeyAndVisible()
         self.window = window
