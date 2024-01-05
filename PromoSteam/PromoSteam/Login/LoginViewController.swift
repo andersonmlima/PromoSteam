@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
         textField.clipsToBounds = true
         return textField
     }()
-    
+
     let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Senha"
@@ -57,6 +57,50 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    let orLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Ou faça login com"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 16)
+        return label
+    }()
+    
+    let googleLoginIcon: UIButton = {
+        let button = UIButton()
+        let googleImage = UIImage(named: "google.png") // Substitua "googleIcon" pelo nome real da sua imagem
+        button.setImage(googleImage, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        // Adicione ação para lidar com o login com o Google
+        button.addTarget(LoginViewController.self, action: #selector(googleLoginTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    let instagramLoginIcon: UIButton = {
+        let button = UIButton()
+        let instagramImage = UIImage(named: "instagram.png") // Substitua "instagramIcon" pelo nome real da sua imagem
+        button.setImage(instagramImage, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        // Adicione ação para lidar com o login com Instagram
+        button.addTarget(LoginViewController.self, action: #selector(instagramLoginTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    let discordLoginIcon: UIButton = {
+        let button = UIButton()
+        let discordImage = UIImage(named: "discord.png") // Substitua "discordIcon" pelo nome real da sua imagem
+        button.setImage(discordImage, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        // Adicione ação para lidar com o login com o Discord
+        button.addTarget(LoginViewController.self, action: #selector(discordLoginTapped), for: .touchUpInside)
+        return button
+    }()
+    
     let signUpLabel: UILabel = {
         let label = UILabel()
         label.text = "Não tem login? "
@@ -72,19 +116,6 @@ class LoginViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         // Adicione ação para lidar com o botão de cadastro
         button.addTarget(LoginViewController.self, action: #selector(signUpTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    let googleLoginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Login com Google", for: .normal)
-        button.setTitleColor(UIColor(hex: "#ff512e"), for: .normal)
-        button.layer.borderWidth = 2.0
-        button.layer.borderColor = UIColor(hex: "#ff512e").cgColor
-        button.layer.cornerRadius = 10
-        button.clipsToBounds = true
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.addTarget(LoginViewController.self, action: #selector(googleLoginTapped), for: .touchUpInside)
         return button
     }()
     
@@ -107,7 +138,7 @@ class LoginViewController: UIViewController {
         ])
         
         // Adiciona campos de texto e botões
-        let stackView = UIStackView(arrangedSubviews: [loginTextField, passwordTextField, forgotPasswordButton, loginButton, signUpLabel, signUpButton, googleLoginButton])
+        let stackView = UIStackView(arrangedSubviews: [loginTextField, passwordTextField, forgotPasswordButton, loginButton, signUpLabel, signUpButton])
         stackView.axis = .vertical
         stackView.spacing = 10
         stackView.distribution = .fillEqually
@@ -125,6 +156,25 @@ class LoginViewController: UIViewController {
             loginButton.topAnchor.constraint(equalTo: forgotPasswordButton.bottomAnchor, constant: 30)
         ])
         
+        view.addSubview(orLabel)
+        orLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            orLabel.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 20),
+            orLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        let iconStackView = UIStackView(arrangedSubviews: [googleLoginIcon, instagramLoginIcon, discordLoginIcon])
+        iconStackView.axis = .horizontal
+        iconStackView.spacing = 10
+        iconStackView.distribution = .fillEqually
+        view.addSubview(iconStackView)
+        iconStackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            iconStackView.topAnchor.constraint(equalTo: orLabel.bottomAnchor, constant: 20),
+            iconStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            iconStackView.heightAnchor.constraint(equalToConstant: 40) // Ajuste conforme necessário
+        ])
+        
         // Configuração de estilo do botão "Esqueceu a senha?"
         forgotPasswordButton.contentHorizontalAlignment = .left
         forgotPasswordButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
@@ -136,9 +186,12 @@ class LoginViewController: UIViewController {
         view.addSubview(buttonStackView)
         buttonStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            buttonStackView.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 10),
-            buttonStackView.leadingAnchor.constraint(equalTo: stackView.leadingAnchor)
+            buttonStackView.topAnchor.constraint(equalTo: iconStackView.bottomAnchor, constant: 20),
+            buttonStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+        
+        
+        
     }
     
     // Adicione funções de ação para os botões
@@ -156,6 +209,14 @@ class LoginViewController: UIViewController {
     
     @objc private func googleLoginTapped() {
         // Implemente a lógica para lidar com o login com o Google
+    }
+    
+    @objc private func instagramLoginTapped() {
+        // Implemente a lógica para lidar com o login com Instagram
+    }
+    
+    @objc private func discordLoginTapped() {
+        // Implemente a lógica para lidar com o login com Discord
     }
 }
 
