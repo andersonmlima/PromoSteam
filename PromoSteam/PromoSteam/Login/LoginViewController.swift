@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Login"
         textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 10
+        textField.clipsToBounds = true
         return textField
     }()
     
@@ -27,6 +29,8 @@ class LoginViewController: UIViewController {
         textField.placeholder = "Senha"
         textField.isSecureTextEntry = true
         textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 10
+        textField.clipsToBounds = true
         return textField
     }()
     
@@ -44,8 +48,8 @@ class LoginViewController: UIViewController {
     let loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Entrar", for: .normal)
-        button.backgroundColor = UIColor(hex: "#189fff")
-        button.layer.cornerRadius = 4 // Ajuste o valor conforme necessário
+        button.backgroundColor = UIColor(hex: "#6C9017")
+        button.layer.cornerRadius = 10 // Ajuste o valor conforme necessário
         button.clipsToBounds = true // Garante que as bordas arredondadas sejam aplicadas
         // Adicione ação para lidar com o botão de login
         button.addTarget(LoginViewController.self, action: #selector(loginTapped), for: .touchUpInside)
@@ -57,6 +61,7 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.text = "Não tem login? "
         label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
     
@@ -64,6 +69,7 @@ class LoginViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Cadastre-se aqui", for: .normal)
         button.setTitleColor(.systemCyan, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         // Adicione ação para lidar com o botão de cadastro
         button.addTarget(LoginViewController.self, action: #selector(signUpTapped), for: .touchUpInside)
         return button
@@ -72,10 +78,13 @@ class LoginViewController: UIViewController {
     let googleLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Login com Google", for: .normal)
-        button.backgroundColor = UIColor(hex: "#ff512e")
-        // Adicione ação para lidar com o login com o Google
-        button.addTarget(LoginViewController.self, action: #selector(googleLoginTapped), for: .touchUpInside)
+        button.setTitleColor(UIColor(hex: "#ff512e"), for: .normal)
+        button.layer.borderWidth = 2.0
+        button.layer.borderColor = UIColor(hex: "#ff512e").cgColor
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.addTarget(LoginViewController.self, action: #selector(googleLoginTapped), for: .touchUpInside)
         return button
     }()
     
@@ -85,7 +94,7 @@ class LoginViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = UIColor(hex: "#284156")
+        view.backgroundColor = UIColor(hex: "#174050")
         
         // Adiciona a imagem do logo
         view.addSubview(logoImageView)
