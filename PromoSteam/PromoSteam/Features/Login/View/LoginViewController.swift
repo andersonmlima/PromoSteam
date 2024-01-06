@@ -119,8 +119,11 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    var viewModel: LoginViewModel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = LoginViewModel()
         setupUI()
     }
     
