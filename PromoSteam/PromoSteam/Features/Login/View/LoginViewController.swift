@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
         textField.clipsToBounds = true
         return textField
     }()
-
+    
     let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Senha"
@@ -115,7 +115,7 @@ class LoginViewController: UIViewController {
         button.setTitleColor(.systemCyan, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         // Adicione ação para lidar com o botão de cadastro
-        button.addTarget(LoginViewController.self, action: #selector(signUpTapped), for: .touchUpInside)
+        button.addTarget(LoginViewController.self, action: #selector(LoginViewController.signUpTapped), for: .touchUpInside)
         return button
     }()
     
@@ -206,8 +206,9 @@ class LoginViewController: UIViewController {
         // Implemente a lógica para lidar com o botão de login
     }
     
-    @objc private func signUpTapped() {
-        // Implemente a lógica para lidar com o botão de cadastro
+    @objc func signUpTapped() {
+        let registerViewController = RegisterViewController()
+        self.navigationController?.pushViewController(registerViewController, animated: true)
     }
     
     @objc private func googleLoginTapped() {
