@@ -9,6 +9,8 @@ import UIKit
 
 class IntroductionViewController: UIViewController {
     
+    var viewModel: LoginViewModel!
+
     let logoImagemView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "promosteam-branco.png"))
         imageView.contentMode = .scaleAspectFill
@@ -17,6 +19,7 @@ class IntroductionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = LoginViewModel()
         setupUI()
         
         // Chama o método após 10 segundos
@@ -24,7 +27,7 @@ class IntroductionViewController: UIViewController {
             self.navigateToLogin()
         }
     }
-    
+
     private func setupUI() {
         view.backgroundColor = UIColor(hex: "#072236")
         
@@ -33,11 +36,11 @@ class IntroductionViewController: UIViewController {
         NSLayoutConstraint.activate([
             logoImagemView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImagemView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            logoImagemView.widthAnchor.constraint(equalToConstant: 75 ),
+            logoImagemView.widthAnchor.constraint(equalToConstant: 75),
             logoImagemView.heightAnchor.constraint(equalToConstant: 75)
         ])
     }
-    
+
     private func navigateToLogin() {
         // Navega para a tela de login
         let loginViewController = LoginViewController()
@@ -45,4 +48,3 @@ class IntroductionViewController: UIViewController {
         present(loginViewController, animated: true, completion: nil)
     }
 }
-
