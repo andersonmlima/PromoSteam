@@ -105,6 +105,7 @@ class RegisterViewController: UIViewController {
             backButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
             backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+        
     }
     
     // Adicione funções de ação para os botões
@@ -112,7 +113,7 @@ class RegisterViewController: UIViewController {
         // Implemente a lógica para lidar com o botão de cadastro
     }
     
-    @objc func backTapped() {
-        self.navigationController?.popViewController(animated: true)
+    @objc private func backTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }

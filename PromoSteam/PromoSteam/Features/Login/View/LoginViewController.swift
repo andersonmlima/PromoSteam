@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class LoginViewController: UIViewController {
     
     let logoImageView: UIImageView = {
@@ -114,8 +115,6 @@ class LoginViewController: UIViewController {
         button.setTitle("Cadastre-se aqui", for: .normal)
         button.setTitleColor(.systemCyan, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        // Adicione ação para lidar com o botão de cadastro
-        button.addTarget(LoginViewController.self, action: #selector(LoginViewController.signUpTapped), for: .touchUpInside)
         return button
     }()
     
@@ -206,10 +205,10 @@ class LoginViewController: UIViewController {
         // Implemente a lógica para lidar com o botão de login
     }
     
-    @objc func signUpTapped() {
-        let registerViewController = RegisterViewController()
-        self.navigationController?.pushViewController(registerViewController, animated: true)
-    }
+    @objc private func signUpTapped() {
+            
+        
+        }
     
     @objc private func googleLoginTapped() {
         // Implemente a lógica para lidar com o login com o Google
