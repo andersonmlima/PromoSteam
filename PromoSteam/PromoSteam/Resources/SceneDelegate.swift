@@ -15,8 +15,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         // Cria uma instância de IntroductionViewController
-        let introductionViewController = IntroductionViewController()
-        let nav = UINavigationController(rootViewController: introductionViewController)
+        let loginViewController = LoginViewController()
+        let nav = UINavigationController(rootViewController: loginViewController)
         
         // Configura a janela com o IntroductionViewController
         let window = UIWindow(windowScene: windowScene)
