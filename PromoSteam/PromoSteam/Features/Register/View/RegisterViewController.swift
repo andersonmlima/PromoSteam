@@ -2,118 +2,77 @@
 //  RegisterViewController.swift
 //  PromoSteam
 //
-//  Created by Anderson Moura on 06/01/24.
+//  Created by Anderson Moura on 10/01/24.
 //
 
-import Foundation
 import UIKit
 
 class RegisterViewController: UIViewController {
     
-    let profileImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "adicionar-usuario.png"))
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    var screen: RegisterScreen?
     
-    let usernameTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Username"
-        textField.borderStyle = .roundedRect
-        textField.layer.cornerRadius = 10
-        textField.clipsToBounds = true
-        return textField
-    }()
-    
-    let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Senha"
-        textField.isSecureTextEntry = true
-        textField.borderStyle = .roundedRect
-        textField.layer.cornerRadius = 10
-        textField.clipsToBounds = true
-        return textField
-    }()
-    
-    let confirmPasswordTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "Confirmar Senha"
-        textField.isSecureTextEntry = true
-        textField.borderStyle = .roundedRect
-        textField.layer.cornerRadius = 10
-        textField.clipsToBounds = true
-        return textField
-    }()
-    
-    let registerButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Cadastrar", for: .normal)
-        button.backgroundColor = UIColor(hex: "#6C9017")
-        button.layer.cornerRadius = 10
-        button.clipsToBounds = true
-        // Adicione ação para lidar com o botão de cadastro
-        button.addTarget(RegisterViewController.self, action: #selector(RegisterViewController.registerTapped), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        return button
-    }()
-    
-    let backButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Voltar", for: .normal)
-        button.setTitleColor(.systemCyan, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        // Adicione ação para lidar com o botão de voltar
-        button.addTarget(RegisterViewController.self, action: #selector(RegisterViewController.backTapped), for: .touchUpInside)
-        return button
-    }()
+    override func loadView() {
+        self.screen = RegisterScreen()
+        screen?.delegate = self
+        view = screen
+    }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
+        // Adicione um botão personalizado como item de volta
+        let backButton = UIBarButtonItem(image: UIImage(named: "seta-esquerda.png"), style: .plain, target: self, action: #selector(backButtonTapped))
+        
+        // Define a cor do ícone e do texto do botão de volta para branco
+        backButton.tintColor = .white
+        
+        // Remova o título padrão do botão de volta
+        backButton.title = ""
+        
+        // Atribua o botão de volta personalizado à barra de navegação
+        navigationItem.leftBarButtonItem = backButton
     }
     
-    private func setupUI() {
-        view.backgroundColor = UIColor(hex: "#174050")
-        
-        // Adiciona a imagem do perfil
-        view.addSubview(profileImageView)
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            profileImageView.widthAnchor.constraint(equalToConstant: 100),
-            profileImageView.heightAnchor.constraint(equalToConstant: 100)
-        ])
-        
-        // Adiciona campos de texto e botões
-        let stackView = UIStackView(arrangedSubviews: [usernameTextField, passwordTextField, confirmPasswordTextField, registerButton])
-        stackView.axis = .vertical
-        stackView.spacing = 10
-        stackView.distribution = .fillEqually
-        view.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
-        ])
-        
-        view.addSubview(backButton)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            backButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
-            backButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-    }
-    
-    // Adicione funções de ação para os botões
-    @objc private func registerTapped() {
-        // Implemente a lógica para lidar com o botão de cadastro
-    }
-    
-    @objc private func backTapped() {
+    @objc private func backButtonTapped() {
+        // Implemente a lógica desejada quando o botão de volta for pressionado
+        // Isso geralmente envolve a navegação de volta para a tela anterior
         navigationController?.popViewController(animated: true)
+    }
+    
+}
+
+extension RegisterViewController: RegisterViewControllerProtocol {
+    
+    func registerTapped() {
+
+            // Valide os campos antes de prosseguir
+            guard let username = screen?.usernameTextField.text, !username.isEmpty,
+                  let password = screen?.passwordTextField.text, !password.isEmpty,
+                  let confirmPassword = screen?.confirmPasswordTextField.text, !confirmPassword.isEmpty else {
+                // Se algum campo estiver vazio, não prossiga com o cadastro
+                return
+            }
+
+            // Implemente a lógica para lidar com o botão de cadastro
+            // Por enquanto, vamos apenas navegar para a HomeViewController
+            let homeViewController = HomeViewController()  // Certifique-se de criar a HomeViewController corretamente
+            navigationController?.pushViewController(homeViewController, animated: true)
+        }
+
+    func afterTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+extension RegisterViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    // Implemente os métodos necessários, como didFinishPickingMediaWithInfo
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage = info[.editedImage] as? UIImage {
+            // Atualize o profileImageView com a imagem selecionada
+            screen?.profileImageView.image = selectedImage
+        }
+        dismiss(animated: true, completion: nil)
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
 }
