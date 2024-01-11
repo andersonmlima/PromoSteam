@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
     
@@ -24,21 +25,45 @@ class LoginViewController: UIViewController {
         screen?.delegate = self
         
         screen?.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+                screen?.signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         
     }
     
     @objc private func loginTapped() {
-        // Implemente a lógica desejada para o clique no botão de login aqui
-        print("Login button tapped")
+        guard let email = screen?.loginTextField.text, !email.isEmpty,
+              let password = screen?.passwordTextField.text, !password.isEmpty else {
+            // Lidar com campos de texto vazios, se necessário
+            return
+        }
 
-        // Exemplo: Destacar campos vazios
-        screen?.highlightEmptyFields()
-    }
-    
-}
+        // Autenticação com o Firebase
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (authResult, error) in
+            guard let strongSelf = self else {
+                return
+            }
 
-extension LoginViewController: LoginViewControllerProtocol {
-    func navigateToLogin() {
-        navigationController?.pushViewController(RegisterViewController(), animated: true)
+            if let error = error {
+                // Trate o erro aqui
+                print("Erro ao fazer login: \(error.localizedDescription)")
+                return
+            }
+
+            // Sucesso no login
+            print("Login bem-sucedido")
+
+            // Você pode implementar mais lógica aqui, como navegar para a próxima tela
+            // ou exibir uma mensagem de sucesso.
+        }
     }
-}
+        
+        @objc private func signUpTapped() {
+            // Navegar para a tela de registro
+            navigationController?.pushViewController(RegisterViewController(), animated: true)
+        }
+    }
+
+    extension LoginViewController: LoginViewControllerProtocol {
+        func navigateToLogin() {
+            // Implemente a lógica para lidar com a navegação para a tela de registro, se necessário
+        }
+    }
