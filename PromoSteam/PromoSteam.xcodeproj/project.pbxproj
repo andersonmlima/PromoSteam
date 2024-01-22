@@ -20,6 +20,12 @@
 		643DC3A32B50A35F0063F3BA /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 643DC3A22B50A35F0063F3BA /* FirebaseAppDistribution-Beta */; };
 		643DC3A52B50A35F0063F3BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 643DC3A42B50A35F0063F3BA /* FirebaseAuth */; };
 		643DC3A72B50A35F0063F3BA /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 643DC3A62B50A35F0063F3BA /* FirebaseAuthCombine-Community */; };
+		643DC3AE2B581DDB0063F3BA /* APIServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643DC3AD2B581DDB0063F3BA /* APIServiceProtocol.swift */; };
+		643DC3B12B581E1A0063F3BA /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643DC3B02B581E1A0063F3BA /* HomeViewModel.swift */; };
+		643DC3B42B5820190063F3BA /* Deal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643DC3B32B5820190063F3BA /* Deal.swift */; };
+		643DC3B62B5864020063F3BA /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643DC3B52B5864020063F3BA /* APIClient.swift */; };
+		643DC3B92B586F980063F3BA /* DealTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643DC3B82B586F980063F3BA /* DealTableViewCell.swift */; };
+		643DC3BB2B587FAB0063F3BA /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643DC3BA2B587FAB0063F3BA /* APIError.swift */; };
 		6451C4272B4639A9004B488B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451C4262B4639A9004B488B /* AppDelegate.swift */; };
 		6451C4292B4639A9004B488B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451C4282B4639A9004B488B /* SceneDelegate.swift */; };
 		6451C42B2B4639A9004B488B /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6451C42A2B4639A9004B488B /* LoginScreen.swift */; };
@@ -36,6 +42,12 @@
 		643DC3912B4FADD00063F3BA /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		643DC3932B4FADF50063F3BA /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		643DC3952B50A1830063F3BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		643DC3AD2B581DDB0063F3BA /* APIServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceProtocol.swift; sourceTree = "<group>"; };
+		643DC3B02B581E1A0063F3BA /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		643DC3B32B5820190063F3BA /* Deal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deal.swift; sourceTree = "<group>"; };
+		643DC3B52B5864020063F3BA /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		643DC3B82B586F980063F3BA /* DealTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealTableViewCell.swift; sourceTree = "<group>"; };
+		643DC3BA2B587FAB0063F3BA /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		6451C4232B4639A9004B488B /* PromoSteam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PromoSteam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6451C4262B4639A9004B488B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6451C4282B4639A9004B488B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -70,6 +82,8 @@
 		643DC38F2B4FADA70063F3BA /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				643DC3B72B586F690063F3BA /* Cell */,
+				643DC3AF2B581E050063F3BA /* ViewModel */,
 				643DC3902B4FADB50063F3BA /* View */,
 			);
 			path = Home;
@@ -82,6 +96,40 @@
 				643DC3932B4FADF50063F3BA /* HomeScreen.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		643DC3A82B581B890063F3BA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				643DC3AD2B581DDB0063F3BA /* APIServiceProtocol.swift */,
+				643DC3B52B5864020063F3BA /* APIClient.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		643DC3AF2B581E050063F3BA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				643DC3B02B581E1A0063F3BA /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		643DC3B22B581FFD0063F3BA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				643DC3B32B5820190063F3BA /* Deal.swift */,
+				643DC3BA2B587FAB0063F3BA /* APIError.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		643DC3B72B586F690063F3BA /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				643DC3B82B586F980063F3BA /* DealTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		6451C41A2B4639A9004B488B = {
@@ -103,6 +151,8 @@
 		6451C4252B4639A9004B488B /* PromoSteam */ = {
 			isa = PBXGroup;
 			children = (
+				643DC3B22B581FFD0063F3BA /* Models */,
+				643DC3A82B581B890063F3BA /* Services */,
 				64A815DC2B497508008C6E1A /* Features */,
 				6451C43A2B46E440004B488B /* Resources */,
 				64A815E22B497A20008C6E1A /* Shared */,
@@ -316,16 +366,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				643DC3AE2B581DDB0063F3BA /* APIServiceProtocol.swift in Sources */,
+				643DC3B62B5864020063F3BA /* APIClient.swift in Sources */,
 				6451C42B2B4639A9004B488B /* LoginScreen.swift in Sources */,
 				6451C4402B470230004B488B /* LoginViewController.swift in Sources */,
 				643DC38C2B4F1FC30063F3BA /* RegisterViewController.swift in Sources */,
 				64A815ED2B49B3A5008C6E1A /* RegisterViewModel.swift in Sources */,
 				643DC38E2B4FA9A60063F3BA /* RegisterScreen.swift in Sources */,
+				643DC3B92B586F980063F3BA /* DealTableViewCell.swift in Sources */,
 				643DC3922B4FADD00063F3BA /* HomeViewController.swift in Sources */,
+				643DC3B12B581E1A0063F3BA /* HomeViewModel.swift in Sources */,
 				643DC3942B4FADF50063F3BA /* HomeScreen.swift in Sources */,
 				6451C4272B4639A9004B488B /* AppDelegate.swift in Sources */,
 				64A815E12B49763A008C6E1A /* LoginViewModel.swift in Sources */,
+				643DC3BB2B587FAB0063F3BA /* APIError.swift in Sources */,
 				6451C4292B4639A9004B488B /* SceneDelegate.swift in Sources */,
+				643DC3B42B5820190063F3BA /* Deal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

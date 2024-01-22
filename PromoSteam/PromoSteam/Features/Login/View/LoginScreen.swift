@@ -38,6 +38,7 @@ class LoginViewScreen: UIView {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
         textField.clipsToBounds = true
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -48,6 +49,7 @@ class LoginViewScreen: UIView {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
         textField.clipsToBounds = true
+        textField.autocapitalizationType = .none
         return textField
     }()
     

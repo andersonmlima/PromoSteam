@@ -32,34 +32,57 @@ class RegisterViewController: UIViewController {
         navigationItem.leftBarButtonItem = backButton
     }
     
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
     @objc private func backButtonTapped() {
         // Implemente a lógica desejada quando o botão de volta for pressionado
         // Isso geralmente envolve a navegação de volta para a tela anterior
         navigationController?.popViewController(animated: true)
     }
-    
 }
 
-extension RegisterViewController: RegisterViewControllerProtocol {
+extension RegisterViewController: RegisterViewControllerProtocol {    
     
     func registerTapped() {
-
-            // Valide os campos antes de prosseguir
-            guard let username = screen?.usernameTextField.text, !username.isEmpty,
-                  let password = screen?.passwordTextField.text, !password.isEmpty,
-                  let confirmPassword = screen?.confirmPasswordTextField.text, !confirmPassword.isEmpty else {
-                // Se algum campo estiver vazio, não prossiga com o cadastro
+        guard let username = screen?.usernameTextField.text, !username.isEmpty,
+              let password = screen?.passwordTextField.text, !password.isEmpty,
+              let confirmPassword = screen?.confirmPasswordTextField.text, !confirmPassword.isEmpty else {
+            showAlert(title: "Erro", message: "Por favor, preencha todos os campos.")
+            return
+        }
+        
+        // Use o Firebase para criar a conta
+        Auth.auth().createUser(withEmail: username, password: password) { [weak self] (authResult, error) in
+            guard let self = self else { return }
+            
+            if let error = error {
+                // Trate o erro durante o registro
+                print("Erro durante o registro: \(error.localizedDescription)")
                 return
             }
-
-            // Implemente a lógica para lidar com o botão de cadastro
-            // Por enquanto, vamos apenas navegar para a HomeViewController
-            let homeViewController = HomeViewController()  // Certifique-se de criar a HomeViewController corretamente
-            navigationController?.pushViewController(homeViewController, animated: true)
+            
+            // Registro bem-sucedido, autentique o usuário e navegue para a HomeViewController
+            Auth.auth().signIn(withEmail: username, password: password) { (authResult, error) in
+                if let error = error {
+                    // Trate o erro durante a autenticação
+                    print("Erro durante a autenticação: \(error.localizedDescription)")
+                    return
+                }
+                
+                // Autenticação bem-sucedida, navegue para a HomeViewController
+                self.navigateToHome()
+            }
         }
-
-    func afterTapped() {
-        navigationController?.popViewController(animated: true)
+    }
+    
+    func navigateToHome() {
+        let homeViewController = HomeViewController()
+        self.navigationController?.pushViewController(homeViewController, animated: true)
     }
 }
 
@@ -72,8 +95,9 @@ extension RegisterViewController: UINavigationControllerDelegate, UIImagePickerC
         }
         dismiss(animated: true, completion: nil)
     }
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
 }
+

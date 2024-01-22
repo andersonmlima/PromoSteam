@@ -25,45 +25,53 @@ class LoginViewController: UIViewController {
         screen?.delegate = self
         
         screen?.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
-                screen?.signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
+        screen?.signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
         
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc private func loginTapped() {
         guard let email = screen?.loginTextField.text, !email.isEmpty,
               let password = screen?.passwordTextField.text, !password.isEmpty else {
-            // Lidar com campos de texto vazios, se necessário
+            showAlert(title: "Erro", message: "Por favor, preencha todos os campos.")
             return
         }
-
+        
         // Autenticação com o Firebase
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] (authResult, error) in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 return
             }
-
+            
             if let error = error {
                 // Trate o erro aqui
                 print("Erro ao fazer login: \(error.localizedDescription)")
+                self.showAlert(title: "Erro", message: "Falha ao fazer login. Verifique suas credenciais e tente novamente.")
                 return
             }
-
+            
             // Sucesso no login
             print("Login bem-sucedido")
+            
+            let homeViewController = HomeViewController()
+            self.navigationController?.pushViewController(homeViewController, animated: true)
+        }
+    }
+    
+    @objc private func signUpTapped() {
+        // Navegar para a tela de registro
+        navigationController?.pushViewController(RegisterViewController(), animated: true)
+    }
+}
 
-            // Você pode implementar mais lógica aqui, como navegar para a próxima tela
-            // ou exibir uma mensagem de sucesso.
-        }
+extension LoginViewController: LoginViewControllerProtocol {
+    func navigateToLogin() {
+        // Implemente a lógica para lidar com a navegação para a tela de registro, se necessário
     }
-        
-        @objc private func signUpTapped() {
-            // Navegar para a tela de registro
-            navigationController?.pushViewController(RegisterViewController(), animated: true)
-        }
-    }
-
-    extension LoginViewController: LoginViewControllerProtocol {
-        func navigateToLogin() {
-            // Implemente a lógica para lidar com a navegação para a tela de registro, se necessário
-        }
-    }
+}
