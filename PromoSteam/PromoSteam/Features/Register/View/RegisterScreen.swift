@@ -6,10 +6,10 @@
 //
 
 import UIKit
+import Firebase
 
 protocol RegisterViewControllerProtocol: AnyObject {
     func registerTapped()
-    func afterTapped()
 }
 
 class RegisterScreen: UIView {
@@ -29,6 +29,7 @@ class RegisterScreen: UIView {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
         textField.clipsToBounds = true
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -39,6 +40,7 @@ class RegisterScreen: UIView {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
         textField.clipsToBounds = true
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -49,6 +51,7 @@ class RegisterScreen: UIView {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 10
         textField.clipsToBounds = true
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -60,15 +63,6 @@ class RegisterScreen: UIView {
         button.clipsToBounds = true
         button.addTarget(RegisterScreen.self, action: #selector(registerButtonTapped), for: .touchUpInside)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        return button
-    }()
-    
-    let afterButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Depois", for: .normal)
-        button.setTitleColor(.systemCyan, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.addTarget(RegisterScreen.self, action: #selector(afterTapped), for: .touchUpInside)
         return button
     }()
     
@@ -108,18 +102,8 @@ class RegisterScreen: UIView {
             stackView.bottomAnchor.constraint(lessThanOrEqualTo: safeAreaLayoutGuide.bottomAnchor, constant: -30)
         ])
         
-        addSubview(afterButton)
-        afterButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            afterButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 20),
-            afterButton.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
-        
         // Adiciona ação para lidar com o botão de cadastro
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
-        
-        afterButton.addTarget(self, action: #selector(afterTapped), for: .touchUpInside)
-
         
         addSubview(profileImageView)
         profileImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -147,7 +131,4 @@ class RegisterScreen: UIView {
         delegate?.registerTapped()
     }
     
-    @objc private func afterTapped() {
-            delegate?.afterTapped()
-        }
 }
