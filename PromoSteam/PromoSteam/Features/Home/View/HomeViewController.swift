@@ -8,48 +8,102 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    var viewModel: HomeViewModel!
+    
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(DealTableViewCell.self, forCellReuseIdentifier: DealTableViewCell.identifier)
+        return tableView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = HomeViewModel()
+        configureUI()
         fetchCheapSharkDeals()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureUI()
     }
     
     func fetchCheapSharkDeals() {
-            // Substitua "YOUR_API_KEY" pela sua chave de API
-            let apiKey = "https://api.postman.com/collections/31016053-6a62b2e6-2ce1-4a1b-8a99-4fe5b50963f3?access_key=PMAT-01HKXDSBJHFHZMJWP53EPEC7QZ"
-            let apiURL = "https://api.cheapshark.com/1.0/deals?storeID=1&sortBy=Deal%20Rating&pageSize=10&desc=desc&onSale=1"
-
-            guard let url = URL(string: apiURL) else {
-                print("URL inválida")
+        viewModel.fetchCheapSharkDeals { [weak self] (deals, error) in
+            if let error = error {
+                print("Erro na requisição: \(error.localizedDescription)")
                 return
             }
-
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            request.addValue(apiKey, forHTTPHeaderField: "X-CheapShark-Token")
-
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let error = error {
-                    print("Erro na requisição: \(error.localizedDescription)")
-                    return
-                }
-
-                guard let data = data else {
-                    print("Dados não encontrados")
-                    return
-                }
-
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                        print(json)
-                        // Aqui você pode processar os dados JSON conforme necessário
-                    }
-                } catch {
-                    print("Erro ao converter os dados JSON: \(error.localizedDescription)")
+            
+            if let deals = deals {
+                print(deals)
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
                 }
             }
-
-            task.resume()
         }
     }
+    
+    private func configureUI() {
+        // Configurações da barra de navegação
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.barTintColor = UIColor(hex: "#174050")
+        navigationController?.navigationBar.isTranslucent = false // Altere essa linha
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
+        navigationItem.hidesBackButton = true
+        
+        
+        // Configurações da tabela
+        view.backgroundColor = UIColor(hex: "#174050")
+        tableView.backgroundColor = UIColor(hex: "#174050") // Cor de fundo da tabela
+        tableView.separatorStyle = .none
+        tableView.indicatorStyle = .white // Cor da scrollbar
+        
+        let titleLabel = UILabel()
+        titleLabel.text = "PROMOÇÕES"
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        navigationItem.titleView = titleLabel
+        
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+    }
+}
+
+extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfDeals()
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DealTableViewCell.identifier, for: indexPath) as? DealTableViewCell else {
+            fatalError("A célula não pôde ser criada.")
+        }
+        
+        if let deal = viewModel.deal(at: indexPath.row) {
+            cell.configure(with: deal)
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Implemente a lógica para lidar com a seleção de uma célula, por exemplo, abrir os detalhes do jogo
+        if let deal = viewModel.deal(at: indexPath.row),
+           let dealID = deal.dealID,
+           let url = URL(string: "https://www.cheapshark.com/redirect?dealID=\(dealID)") {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+}
