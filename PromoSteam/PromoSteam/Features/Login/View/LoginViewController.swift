@@ -45,13 +45,14 @@ class LoginViewController: UIViewController {
         
         // Autenticação com o Firebase
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] (authResult, error) in
-            guard self != nil else {
+            guard let self = self else {
                 return
             }
             
             if let error = error {
                 // Trate o erro aqui
                 print("Erro ao fazer login: \(error.localizedDescription)")
+                self.showAlert(title: "Erro", message: "Falha ao fazer login. Verifique suas credenciais e tente novamente.")
                 return
             }
             
@@ -59,8 +60,7 @@ class LoginViewController: UIViewController {
             print("Login bem-sucedido")
             
             let homeViewController = HomeViewController()
-            self?.navigationController?.pushViewController(homeViewController, animated: true)
-            
+            self.navigationController?.pushViewController(homeViewController, animated: true)
         }
     }
     
